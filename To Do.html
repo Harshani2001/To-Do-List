@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List with Date Picker</title>
+    <style>
+        /* General styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        /* Input field styling */
+        #taskInput {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        /* Date picker styling */
+        #taskDate {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        /* Add task button */
+        button {
+    width: auto;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+button:active {
+    background-color: #388e3c;
+    transform: scale(1);
+}
+
+button:focus {
+    outline: none;
+}
+
+/* Task delete button */
+.task button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 10px; /* Smaller padding */
+    font-size: 14px; /* Smaller text */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.task button:hover {
+    background-color: #e53935;
+    transform: scale(1.05);
+}
+
+.task button:active {
+    background-color: #d32f2f;
+    transform: scale(1);
+}
+
+.task button:focus {
+    outline: none;
+}
+
+        .task .date {
+            font-size: 14px;
+            color: #777;
+            margin-left: 10px;
+        }
+
+        /* Mobile responsive design */
+        @media (max-width: 600px) {
+            button {
+                font-size: 16px;
+            }
+
+            #taskInput, #taskDate {
+                font-size: 16px;
+            }
+
+            .task {
+                font-size: 16px;
+                padding: 12px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>My To-Do List</h2>
+        <input type="text" id="taskInput" placeholder="Enter your task here..." required>
+        <input type="date" id="taskDate"  placeholder="Date" required>
+        <button onclick="addTask()">Add Task</button>
+        
+        <ul id="taskList"></ul>
+    </div>
+
+    <script>
+        // Function to add task
+        function addTask() {
+            let taskInput = document.getElementById("taskInput");
+            let taskDate = document.getElementById("taskDate");
+            let taskText = taskInput.value;
+            let dueDate = taskDate.value;
+            
+            if (taskText && dueDate) {
+                let li = document.createElement("li");
+                li.classList.add("task");
+                li.innerHTML = `
+                    <span onclick="toggleCompletion(this)">${taskText}</span>
+                    <span class="date">${formatDate(dueDate)}</span>
+                    <button onclick="deleteTask(this)">Delete</button>
+                `;
+                document.getElementById("taskList").appendChild(li);
+                taskInput.value = ""; // Clear input field
+                taskDate.value = ""; // Clear date picker
+            }
+        }
+
+        // Function to toggle task completion
+        function toggleCompletion(span) {
+            span.parentElement.classList.toggle("completed");
+        }
+
+        // Function to delete task
+        function deleteTask(button) {
+            button.parentElement.remove();
+        }
+
+        // Function to format date to a more readable format
+        function formatDate(date) {
+            let dateObj = new Date(date);
+            let day = String(dateObj.getDate()).padStart(2, '0');
+            let month = String(dateObj.getMonth() + 1).padStart(2, '0');
+            let year = dateObj.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+    </script>
+
+</body>
+</html>
